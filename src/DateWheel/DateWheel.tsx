@@ -60,6 +60,7 @@ const preparePoints = (data: pointType[]): preparedPointType[] => {
 export default function DateWheel({ data }: propsType) {
   const isDesktop = useMediaQuery("screen and (min-width: 769px)");
   const swiperRef: Ref<SwiperRef> = useRef<SwiperRef>(null);
+  const swiperWrapperRef: Ref<HTMLDivElement> = useRef<HTMLDivElement>(null);
   const [preparedPoints, setPreparedPoints]: [
     preparedPointType[],
     Dispatch<SetStateAction<preparedPointType[]>>
@@ -104,7 +105,6 @@ export default function DateWheel({ data }: propsType) {
     });
   }, [preparedPoints.length]);
   useEffect(() => {
-    console.log("rotateValue", rotateValue);
     const isNegative = rotateValue <= 30;
     const diff =
       selectedPoint > preparedPoints.length - 1 / 2
@@ -113,9 +113,7 @@ export default function DateWheel({ data }: propsType) {
     const countedRotateValue = isNegative
       ? (360 / preparedPoints.length) * diff + 60 - 360
       : (360 / preparedPoints.length) * diff + 60;
-    console.log("countedRotateValue", countedRotateValue);
     const difference = ((rotateValue % 360) - countedRotateValue) % 360;
-    console.log("difference", difference);
     if (difference !== 0) {
       setRotateValue((oldRotateValue) => oldRotateValue - difference);
     }
@@ -129,9 +127,6 @@ export default function DateWheel({ data }: propsType) {
             (diff > preparedPoints.length / 2
               ? diff - preparedPoints.length
               : diff);
-        if (newRotateValue % 60 === 0) {
-          console.log("yes");
-        }
         return newRotateValue;
       });
     },
@@ -213,6 +208,33 @@ export default function DateWheel({ data }: propsType) {
     });
   }, [selectedPoint, preparedPoints]);
 
+  useEffect(() => {
+    const wrapperRef =
+      document.querySelector<HTMLDivElement>(".swiper-wrapper");
+    if (isLoadingInfos) {
+      if (wrapperRef) {
+        wrapperRef.style.opacity = "0";
+        setTimeout(() => {
+          if (wrapperRef) {
+            wrapperRef.style.transition = "opacity 125ms linear";
+            wrapperRef.style.transform = "translateY(20%)";
+          }
+        }, 125);
+      }
+    } else {
+      if (wrapperRef) {
+        setTimeout(() => {
+          if (wrapperRef) {
+            wrapperRef.style.transition =
+              "opacity 125ms linear, transform 250ms linear";
+            wrapperRef.style.opacity = "1";
+            wrapperRef.style.transform = "translateY(0)";
+          }
+        }, 250);
+      }
+    }
+  }, [isLoadingInfos]);
+
   const circleRef = useRef<HTMLDivElement>(null);
   return (
     <div className={styles.container}>
@@ -285,7 +307,6 @@ export default function DateWheel({ data }: propsType) {
             className={styles.swiperLeft}
             style={{
               opacity: isLeftSwipable ? 1 : 0,
-              transition: "opacity 500ms linear",
             }}
             onClick={() => {
               swiperRef.current?.swiper.slidePrev();
@@ -295,12 +316,11 @@ export default function DateWheel({ data }: propsType) {
           </div>
         )}
         <div
-          style={{
-            opacity: isLoadingInfos ? 0 : 1,
-            transition: "opacity 250ms linear",
-            width: "90%",
-            height: "223px",
-          }}
+          className={styles.swiperWrapper}
+          ref={swiperWrapperRef}
+          // style={{
+          //   opacity: isLoadingInfos ? 0 : 1,
+          // }}
         >
           <Swiper
             ref={swiperRef}
@@ -310,9 +330,12 @@ export default function DateWheel({ data }: propsType) {
               bulletClass: styles.bullet,
               bulletActiveClass: styles.activeBullet,
             }}
-            watchSlidesProgress
-            // slideClass={styles.slide}
-            slideVisibleClass={styles.visibleSlide}
+            onSlidesUpdated={() => {
+              hideInfos();
+              showInfos();
+            }}
+            watchSlidesProgress={!isDesktop}
+            slideFullyVisibleClass={isDesktop ? undefined : styles.visibleSlide}
             className={styles.swiper}
             slidesPerView={isDesktop ? 3 : "auto"}
             spaceBetween={25}
@@ -324,8 +347,6 @@ export default function DateWheel({ data }: propsType) {
               } else {
                 setIsLeftSwipable(true);
               }
-              console.log(leftIndex);
-              console.log(showingInfos.length);
 
               if (leftIndex + 3 >= showingInfos.length) {
                 setIsRightSwipable(false);
