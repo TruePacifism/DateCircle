@@ -215,7 +215,7 @@ export default function DateWheel({ data }: propsType) {
       if (wrapperRef) {
         wrapperRef.style.opacity = "0";
         setTimeout(() => {
-          if (wrapperRef) {
+          if (wrapperRef && !isDesktop) {
             wrapperRef.style.transition = "opacity 125ms linear";
             wrapperRef.style.transform = "translateY(20%)";
           }
@@ -228,12 +228,14 @@ export default function DateWheel({ data }: propsType) {
             wrapperRef.style.transition =
               "opacity 125ms linear, transform 250ms linear";
             wrapperRef.style.opacity = "1";
-            wrapperRef.style.transform = "translateY(0)";
+            if (!isDesktop) {
+              wrapperRef.style.transform = "translateY(0)";
+            }
           }
         }, 250);
       }
     }
-  }, [isLoadingInfos]);
+  }, [isLoadingInfos, isDesktop]);
 
   const circleRef = useRef<HTMLDivElement>(null);
   return (
