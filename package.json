@@ -1,5 +1,6 @@
 {
-  "name": "test-task",
+  "name": "datecircle",
+  "homepage": "https://truepacifism.github.io/datecircle",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
