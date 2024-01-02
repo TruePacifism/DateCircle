@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/DateCircle/static/css/main.63b0c6ec.css",
-    "main.js": "/DateCircle/static/js/main.22a62ac4.js",
+    "main.css": "/DateCircle/static/css/main.1c864f14.css",
+    "main.js": "/DateCircle/static/js/main.b5fb363f.js",
     "static/js/787.32a0f666.chunk.js": "/DateCircle/static/js/787.32a0f666.chunk.js",
     "index.html": "/DateCircle/index.html",
     "static/media/switch-left-icon.svg": "/DateCircle/static/media/switch-left-icon.ef98b9fef4e3ca2415765a562d684f42.svg",
     "static/media/switch-right-icon.svg": "/DateCircle/static/media/switch-right-icon.a4802509920e220d0bd712cef3580d21.svg",
     "static/media/arrow-right.svg": "/DateCircle/static/media/arrow-right.9e4b529cf59e7cde1f458795c07301d1.svg",
-    "main.63b0c6ec.css.map": "/DateCircle/static/css/main.63b0c6ec.css.map",
-    "main.22a62ac4.js.map": "/DateCircle/static/js/main.22a62ac4.js.map",
+    "main.1c864f14.css.map": "/DateCircle/static/css/main.1c864f14.css.map",
+    "main.b5fb363f.js.map": "/DateCircle/static/js/main.b5fb363f.js.map",
     "787.32a0f666.chunk.js.map": "/DateCircle/static/js/787.32a0f666.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.63b0c6ec.css",
-    "static/js/main.22a62ac4.js"
+    "static/css/main.1c864f14.css",
+    "static/js/main.b5fb363f.js"
   ]
 }
